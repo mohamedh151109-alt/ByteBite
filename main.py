@@ -1,13 +1,20 @@
 import math
 import random
 import time
-
+import os
+import sys
 import pygame as pg
 from objects import Level_up, Player, Power_1, Power_2, Segment
 from settings import *
 
 pg.init()
 pg.font.init()
+
+
+def resource_path(relative_path):
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 
 ######### Variables ##########
 
@@ -20,7 +27,8 @@ next_boost = pg.time.get_ticks() + random.randint(6000, 14000)
 screen = pg.display.set_mode((Windows_Width, Windows_Height))
 running = True
 snake_img = pg.transform.scale(
-    pg.image.load("assests/Snake.png").convert_alpha(), (player_width, player_height)
+    pg.image.load(resource_path("assests/Snake.png")).convert_alpha(),
+    (player_width, player_height),
 )
 head_images = {
     (0, -1): pg.transform.rotate(snake_img, 180),
@@ -30,18 +38,20 @@ head_images = {
     (0, 0): pg.transform.rotate(snake_img, 180),
 }
 body_img = pg.transform.scale(
-    pg.image.load("assests/Snake_body.png").convert_alpha(),
+    pg.image.load(resource_path("assests/Snake_body.png")).convert_alpha(),
     (player_width, player_height),
 )
 shield_img = pg.transform.scale(
-    pg.image.load("assests/shield.png").convert_alpha(), (power_2_size, power_2_size)
+    pg.image.load(resource_path("assests/shield.png")).convert_alpha(),
+    (power_2_size, power_2_size),
 )
 apple_img = pg.transform.scale(
-    pg.image.load("assests/Apple.png").convert_alpha(),
+    pg.image.load(resource_path("assests/Apple.png")).convert_alpha(),
     (level_up_width, level_up_height),
 )
 x2_img = pg.transform.scale(
-    pg.image.load("assests/2.png").convert_alpha(), (power_1_size, power_1_size)
+    pg.image.load(resource_path("assests/2.png")).convert_alpha(),
+    (power_1_size, power_1_size),
 )
 pg.display.set_caption("Snake Game")
 clock = pg.time.Clock()
@@ -100,9 +110,11 @@ def new_game():
 
 ####### drawing function ########
 
+
 def drawing(text, font, color, x, y):
     new_text = font.render(text, True, color)
     screen.blit(new_text, new_text.get_rect(center=(x, y)))
+
 
 ################################
 
@@ -134,10 +146,12 @@ def draw_menu():
             Windows_Height - 40,
         )
 
+
 ############################
 
 
 ########### Score ##############
+
 
 def score_f():
     sub_title = middle_font.render("SNAKE GAME", True, (100, 255, 100))
